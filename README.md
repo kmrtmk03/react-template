@@ -1,52 +1,48 @@
-# Vite React Template
+# Anti Playground (Vite React Template)
 
-このリポジトリは、Vite + React + TypeScript をベースにした学習用テンプレートです。  
-Sass と CSS Modules を利用して、コンポーネント単位でスタイルを管理できる構成になっています。
+このリポジトリは、Vite + React + TypeScript をベースにしたモダンな開発テンプレート兼学習用プレイグラウンドです。
+Sass と CSS Modules を利用した堅牢なスタイル管理に加え、アニメーションライブラリやルーティングがセットアップされています。
 
-## 必要なバージョン
+## 必要な環境
 
-- Node.js: v23.7.0
-- React: 19.2.0
+- Node.js: v23.7.0 以上
+- パッケージマネージャー: pnpm (推奨) または npm
 
 ## 使用技術
 
-- Vite
-- React 19 / TypeScript
-- Sass (`.sass`)
-- CSS Modules（例: `Counter.module.sass`）
-- ESLint
-- pnpm (パッケージマネージャー)
+- **Core**: Vite 7 / React 19 / TypeScript
+- **Styling**: Sass (`.sass`) / CSS Modules
+- **Animation**: [Framer Motion](https://www.framer.com/motion/) / [GSAP](https://gsap.com/)
+- **Routing**: [React Router DOM](https://reactrouter.com/)
+- **Linting**: ESLint (Flat Config)
+- **Utilities**: Sharp (画像処理)
 
 ## セットアップ
 
 ```bash
-# npmを使用する場合
-npm install
-
 # pnpmを使用する場合（推奨）
 pnpm install
+
+# npmを使用する場合
+npm install
 ```
 
 ## 開発サーバーの起動
 
 ```bash
-# npmを使用する場合
-npm run dev
-
-# pnpmを使用する場合
 pnpm dev
+# または
+npm run dev
 ```
 
-ブラウザで `http://localhost:5173` を開きます。
+ブラウザで `http://localhost:5173/game` を開きます。（`basename="/game"` が設定されています）
 
 ## ビルド
 
 ```bash
-# npmを使用する場合
-npm run build
-
-# pnpmを使用する場合
 pnpm build
+# または
+npm run build
 ```
 
 出力は `dist` ディレクトリに生成されます。
@@ -54,65 +50,46 @@ pnpm build
 ## プロジェクト構成
 
 ```
-vite-react-template/
+react-template/
 ├── src/
-│   ├── main.tsx                    # エントリーポイント
-│   ├── App.tsx                     # メインコンポーネント
-│   ├── App.sass                    # アプリ全体のスタイル
-│   ├── components/                 # コンポーネント
-│   │   ├── MemoryGame/            # メモリーゲーム
-│   │   │   ├── MemoryGame.tsx
-│   │   │   ├── MemoryGame.module.sass
-│   │   │   ├── useMemoryGame.ts
-│   │   │   ├── components/
-│   │   │   │   ├── Card/
-│   │   │   │   ├── Counter/
-│   │   │   │   └── Modal/
-│   │   │   └── utils/
-│   │   └── ClickGame/             # クリックゲーム
-│   │       ├── ClickGame.tsx
-│   │       ├── ClickGame.module.sass
-│   │       └── useClickCounter.ts
-│   └── styles/                     # グローバルスタイル
-│       ├── reset.sass
-│       ├── mixins/
-│       └── variables/
-└── tools/                          # 開発ツール
-    └── imageCompile/               # 画像圧縮ツール
-        ├── README.md
-        ├── package.json
-        └── imageCompile.ts
+│   ├── main.tsx            # エントリーポイント
+│   ├── App.tsx             # メインコンポーネント（ルーティング設定）
+│   ├── App.sass            # アプリ全体の共通スタイル
+│   ├── components/         # 再利用可能なコンポーネント
+│   ├── hooks/              # カスタムフック (例: useScrollLock.ts)
+│   ├── libs/               # 外部ライブラリのラッパーや共通ユーティリティ (例: TimeUtil.ts)
+│   ├── styles/             # グローバルスタイル定義
+│   │   ├── reset.sass      # リセットCSS
+│   │   ├── mixins/         # Sass mixins (_font.sass, _media-query.sass 等)
+│   │   └── variables/      # Sass 変数 (_color.sass, _layout.sass 等)
+│   └── global.d.ts         # 型定義
+└── tools/                  # 開発補助ツール
+    └── imageCompile/       # 高品質な画像圧縮ツール
 ```
 
-## 画像圧縮ツール
+## 開発ツール
 
-TinyPNGと同等の高品質な画像圧縮ツールが含まれています。
+### 画像圧縮ツール (`tools/imageCompile`)
 
-### セットアップ
+Sharp を使用した高品質な画像圧縮ツールが含まれています。
 
 ```bash
 cd tools/imageCompile
 npm install
-```
-
-### 使用方法
-
-```bash
-cd tools/imageCompile
-npm run compress        # デフォルト品質（70）
-npm run compress:80     # 品質80
+npm run compress        # 品質70で圧縮
+npm run compress:80     # 品質80で圧縮
 ```
 
 詳細は [`tools/imageCompile/README.md`](tools/imageCompile/README.md) を参照してください。
 
-## スタイル構成
+## 特徴
 
-- **グローバルスタイル**: `src/styles/` にmixinや変数を配置
-- **コンポーネントスタイル**: CSS Modulesを使用（`.module.sass`）
-- **自動インポート**: Viteの設定により、mixinと変数は自動的にインポート
+- **スタイル自動読み込み**: `vite.config.ts` の設定により、すべての Sass ファイルで `mixins` と `variables` が自動的に利用可能です。
+- **型安全**: TypeScript をフル活用し、コンポーネントやユーティリティの型安全性を確保しています。
+- **リッチなアニメーション**: Framer Motion と GSAP が導入済みで、高度な UI アニメーションを容易に実装できます。
+- **ベースパス設定**: React Router に `/game` ベースパスが設定されており、特定のサブディレクトリ配下での動作を想定しています。
 
-## メモ
+## コミットメッセージの提案
 
-- 型安全を意識して、React コンポーネント・状態・イベントハンドラには TypeScript の型を積極的に付けています。
-- コンポーネントは `src/components/コンポーネント名/` の形式で管理しています。
-- 複雑なコンポーネントは、さらに `components/` サブディレクトリで整理しています。
+`docs: README.md を現在のプロジェクト構成と依存関係に合わせて更新`
+
